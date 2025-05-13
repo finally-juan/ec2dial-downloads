@@ -11,6 +11,7 @@
       margin: 0 auto;
       padding: 20px;
       line-height: 1.5;
+      color: #24292e;
     }
     h1, h2, h3 { 
       color: #24292e; 
@@ -20,6 +21,13 @@
     h1 { 
       border-bottom: 1px solid #eaecef;
       padding-bottom: 0.3em;
+    }
+    .quick-install {
+      background: #f6f8fa;
+      padding: 16px;
+      border-radius: 6px;
+      margin: 24px 0;
+      border-left: 4px solid #2ea44f;
     }
     .version {
       background: #f6f8fa;
@@ -95,16 +103,79 @@
       display: flex;
       gap: 8px;
     }
+    .command {
+      display: flex;
+      align-items: center;
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      position: relative;
+      margin: 16px 0;
+    }
+    .command pre {
+      flex: 1;
+      margin: 0;
+      padding: 12px 16px;
+      overflow-x: auto;
+    }
+    .copy-button {
+      background: #ddd;
+      border: none;
+      border-radius: 0 6px 6px 0;
+      padding: 0 12px;
+      cursor: pointer;
+      height: 100%;
+      font-size: 14px;
+      transition: background-color 0.2s;
+    }
+    .copy-button:hover {
+      background: #bbb;
+    }
+    .tabs {
+      display: flex;
+      margin-bottom: -1px;
+    }
+    .tab {
+      padding: 8px 16px;
+      cursor: pointer;
+      border: 1px solid #e1e4e8;
+      background-color: #f6f8fa;
+      margin-right: 4px;
+      border-radius: 6px 6px 0 0;
+    }
+    .tab.active {
+      background-color: white;
+      border-bottom-color: white;
+    }
+    .tab-content {
+      border: 1px solid #e1e4e8;
+      padding: 16px;
+      border-radius: 0 6px 6px 6px;
+    }
+    .tab-pane {
+      display: none;
+    }
+    .tab-pane.active {
+      display: block;
+    }
   </style>
 </head>
 <body>
-  <h1>ec2dial Download</h1>
-  <p>A command-line utility to connect to AWS EC2 instances via SSM.</p>
+  <h1>ec2dial</h1>
+  <p>A command-line utility to connect to AWS EC2 instances via SSM using hostname or instance ID.</p>
   
+  <div class="quick-install">
+    <h2>Quick Install</h2>
+    <p>Install ec2dial with a single command:</p>
+    <div class="command">
+      <pre><code>curl --proto '=https' --tlsv1.2 -LsSf https://finally-juan.github.io/ec2dial-downloads/ec2dial-installer.sh | sh</code></pre>
+      <button class="copy-button" onclick="copyToClipboard('curl --proto \'=https\' --tlsv1.2 -LsSf https://finally-juan.github.io/ec2dial-downloads/ec2dial-installer.sh | sh')">Copy</button>
+    </div>
+    <p>The installer will automatically detect your system, download the appropriate binary, verify the checksum, and install it to <code>/usr/local/bin</code>.</p>
+  </div>
+
+  <h2>Manual Download</h2>
   <div class="version">
-    <h2>Version 1.0.0</h2>
-    <p>Released: May 13, 2025</p>
-    <h3>Downloads:</h3>
+    <h3>Latest Version</h3>
     <ul class="download-list">
       <li class="download-item">
         <div class="download-header">
@@ -154,21 +225,84 @@
     </ul>
   </div>
   
-  <h2>Installation</h2>
-  <h3>Linux/macOS</h3>
-  <ol>
-    <li>Download the appropriate binary for your system and its checksum file</li>
-    <li>Verify the checksum: <code>sha256sum -c ec2dial.PLATFORM-ARCH.sha256</code></li>
-    <li>Make executable: <code>chmod +x ec2dial.PLATFORM-ARCH</code></li>
-    <li>Move to a location in your PATH: <code>sudo mv ec2dial.PLATFORM-ARCH /usr/local/bin/ec2dial</code></li>
-  </ol>
-
-  <h3>Windows</h3>
-  <ol>
-    <li>Download the Windows binary and its checksum file</li>
-    <li>Verify with PowerShell: <code>Get-FileHash ec2dial.windows-amd64.exe -Algorithm SHA256 | Format-List</code></li>
-    <li>Place the executable in a location that's in your PATH</li>
-  </ol>
+  <h2>Manual Installation Instructions</h2>
+  
+  <div class="tabs">
+    <div class="tab active" onclick="showTab('linux-tab')">Linux</div>
+    <div class="tab" onclick="showTab('macos-tab')">macOS</div>
+    <div class="tab" onclick="showTab('windows-tab')">Windows</div>
+  </div>
+  
+  <div class="tab-content">
+    <div id="linux-tab" class="tab-pane active">
+      <ol>
+        <li>Download the appropriate binary for your architecture</li>
+        <li>Verify the checksum:
+          <div class="command">
+            <pre><code>sha256sum -c ec2dial.linux-amd64.sha256</code></pre>
+            <button class="copy-button" onclick="copyToClipboard('sha256sum -c ec2dial.linux-amd64.sha256')">Copy</button>
+          </div>
+        </li>
+        <li>Make the binary executable:
+          <div class="command">
+            <pre><code>chmod +x ec2dial.linux-amd64</code></pre>
+            <button class="copy-button" onclick="copyToClipboard('chmod +x ec2dial.linux-amd64')">Copy</button>
+          </div>
+        </li>
+        <li>Move to a location in your PATH:
+          <div class="command">
+            <pre><code>sudo mv ec2dial.linux-amd64 /usr/local/bin/ec2dial</code></pre>
+            <button class="copy-button" onclick="copyToClipboard('sudo mv ec2dial.linux-amd64 /usr/local/bin/ec2dial')">Copy</button>
+          </div>
+        </li>
+      </ol>
+    </div>
+    
+    <div id="macos-tab" class="tab-pane">
+      <ol>
+        <li>Download the appropriate binary for your Mac (arm64 for Apple Silicon, amd64 for Intel)</li>
+        <li>Verify the checksum:
+          <div class="command">
+            <pre><code>shasum -a 256 -c ec2dial.darwin-arm64.sha256</code></pre>
+            <button class="copy-button" onclick="copyToClipboard('shasum -a 256 -c ec2dial.darwin-arm64.sha256')">Copy</button>
+          </div>
+        </li>
+        <li>Make the binary executable:
+          <div class="command">
+            <pre><code>chmod +x ec2dial.darwin-arm64</code></pre>
+            <button class="copy-button" onclick="copyToClipboard('chmod +x ec2dial.darwin-arm64')">Copy</button>
+          </div>
+        </li>
+        <li>Move to a location in your PATH:
+          <div class="command">
+            <pre><code>sudo mv ec2dial.darwin-arm64 /usr/local/bin/ec2dial</code></pre>
+            <button class="copy-button" onclick="copyToClipboard('sudo mv ec2dial.darwin-arm64 /usr/local/bin/ec2dial')">Copy</button>
+          </div>
+        </li>
+      </ol>
+    </div>
+    
+    <div id="windows-tab" class="tab-pane">
+      <ol>
+        <li>Download the Windows binary</li>
+        <li>Verify the checksum (using PowerShell):
+          <div class="command">
+            <pre><code>Get-FileHash ec2dial.windows-amd64.exe -Algorithm SHA256 | Format-List</code></pre>
+            <button class="copy-button" onclick="copyToClipboard('Get-FileHash ec2dial.windows-amd64.exe -Algorithm SHA256 | Format-List')">Copy</button>
+          </div>
+          Compare the hash with the content of the .sha256 file
+        </li>
+        <li>Rename and move the executable to a location in your PATH:
+          <div class="command">
+            <pre><code>rename ec2dial.windows-amd64.exe ec2dial.exe
+move ec2dial.exe C:\Windows\System32\</code></pre>
+            <button class="copy-button" onclick="copyToClipboard('rename ec2dial.windows-amd64.exe ec2dial.exe\nmove ec2dial.exe C:\\Windows\\System32\\')">Copy</button>
+          </div>
+          Or add the directory containing ec2dial.exe to your PATH
+        </li>
+      </ol>
+    </div>
+  </div>
   
   <h2>Usage</h2>
   <pre><code>ec2dial [options] &lt;hostname|instance-id&gt;
@@ -203,5 +337,44 @@ ec2dial --region us-west-2 api-server</code></pre>
   <footer style="margin-top: 50px; color: #586069; font-size: 14px; border-top: 1px solid #eaecef; padding-top: 20px;">
     &copy; 2025 TycoonLabs | Internal use only
   </footer>
+
+  <script>
+    function copyToClipboard(text) {
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      
+      // Show a temporary "Copied!" tooltip
+      const button = document.activeElement;
+      const originalText = button.textContent;
+      button.textContent = 'Copied!';
+      setTimeout(() => {
+        button.textContent = originalText;
+      }, 2000);
+    }
+    
+    function showTab(tabId) {
+      // Hide all tab panes
+      const tabPanes = document.querySelectorAll('.tab-pane');
+      tabPanes.forEach(pane => {
+        pane.classList.remove('active');
+      });
+      
+      // Deactivate all tabs
+      const tabs = document.querySelectorAll('.tab');
+      tabs.forEach(tab => {
+        tab.classList.remove('active');
+      });
+      
+      // Show the selected tab pane
+      document.getElementById(tabId).classList.add('active');
+      
+      // Activate the clicked tab
+      event.currentTarget.classList.add('active');
+    }
+  </script>
 </body>
 </html>
