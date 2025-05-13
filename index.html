@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ec2dial Download</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      line-height: 1.5;
+      color: #24292e;
+    }
+    h1, h2, h3 { 
+      color: #24292e; 
+      margin-top: 24px;
+      margin-bottom: 16px;
+    }
+    h1 { 
+      border-bottom: 1px solid #eaecef;
+      padding-bottom: 0.3em;
+    }
+    .quick-install {
+      background: #f6f8fa;
+      padding: 16px;
+      border-radius: 6px;
+      margin: 24px 0;
+      border-left: 4px solid #2ea44f;
+    }
+    .version {
+      background: #f6f8fa;
+      padding: 16px;
+      border-radius: 6px;
+      margin-bottom: 24px;
+    }
+    .version h2 { margin-top: 0; }
+    .download-list { 
+      list-style-type: none; 
+      padding: 0; 
+    }
+    .download-item {
+      margin-bottom: 16px;
+      padding: 16px;
+      background: #fff;
+      border: 1px solid #e1e4e8;
+      border-radius: 6px;
+    }
+    .download-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .download-header h4 {
+      margin: 0;
+    }
+    .download-button {
+      background: #2ea44f;
+      color: white;
+      padding: 8px 16px;
+      text-decoration: none;
+      border-radius: 6px;
+      display: inline-block;
+      font-weight: 600;
+      margin-right: 8px;
+    }
+    .checksum-button {
+      background: #0366d6;
+      color: white;
+      padding: 8px 16px;
+      text-decoration: none;
+      border-radius: 6px;
+      display: inline-block;
+      font-weight: 600;
+      font-size: 0.9em;
+    }
+    .download-button:hover {
+      background: #22863a;
+    }
+    .checksum-button:hover {
+      background: #0250a2;
+    }
+    pre {
+      background: #f6f8fa;
+      padding: 16px;
+      border-radius: 6px;
+      overflow-x: auto;
+      margin: 0;
+      position: relative;
+    }
+    code {
+      font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 85%;
+      padding: 0.2em 0.4em;
+      margin: 0;
+      background-color: rgba(27,31,35,0.05);
+      border-radius: 3px;
+    }
+    pre code {
+      background-color: transparent;
+      padding: 0;
+      display: block;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+    .button-group {
+      display: flex;
+      gap: 8px;
+    }
+    .command {
+      display: flex;
+      flex-direction: column;
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      position: relative;
+      margin: 16px 0;
+    }
+    .copy-button {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: #e1e4e8;
+      border: none;
+      border-radius: 6px;
+      padding: 4px 10px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: background-color 0.2s;
+    }
+    .copy-button:hover {
+      background: #d1d5da;
+    }
+    .tabs {
+      display: flex;
+      margin-bottom: -1px;
+    }
+    .tab {
+      padding: 8px 16px;
+      cursor: pointer;
+      border: 1px solid #e1e4e8;
+      background-color: #f6f8fa;
+      margin-right: 4px;
+      border-radius: 6px 6px 0 0;
+    }
+    .tab.active {
+      background-color: white;
+      border-bottom-color: white;
+    }
+    .tab-content {
+      border: 1px solid #e1e4e8;
+      padding: 16px;
+      border-radius: 0 6px 6px 6px;
+    }
+    .tab-pane {
+      display: none;
+    }
+    .tab-pane.active {
+      display: block;
+    }
+    .tooltip {
+      position: absolute;
+      top: -30px;
+      right: 10px;
+      background: #24292e;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      display: none;
+    }
+    .tooltip::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: #24292e transparent transparent transparent;
+    }
+  </style>
+</head>
+<body>
+  <h1>ec2dial</h1>
+  <p>A command-line utility to connect to AWS EC2 instances via SSM using hostname or instance ID.</p>
+  
+  <div class="quick-install">
+    <h2>Quick Install</h2>
+    <p>Install ec2dial with a single command:</p>
+    <div class="command">
+      <pre><code>curl --proto '=https' --tlsv1.2 -LsSf https://finally-juan.github.io/ec2dial-downloads/ec2dial-installer.sh | sh</code></pre>
+      <button class="copy-button" onclick="copyCommand(this, 'curl --proto \'=https\' --tlsv1.2 -LsSf https://finally-juan.github.io/ec2dial-downloads/ec2dial-installer.sh | sh')">Copy</button>
+      <span class="tooltip">Copied!</span>
+    </div>
+    <p>The installer will automatically detect your system, download the appropriate binary, verify the checksum, and install it to <code>/usr/local/bin</code>.</p>
+  </div>
+
+  <h2>Manual Download</h2>
+  <div class="version">
+    <h3>Latest Version</h3>
+    <ul class="download-list">
+      <li class="download-item">
+        <div class="download-header">
+          <h4>Linux (amd64)</h4>
+          <div class="button-group">
+            <a class="download-button" href="./downloads/ec2dial.linux-amd64">Download</a>
+            <a class="checksum-button" href="./downloads/ec2dial.linux-amd64.sha256">Checksum</a>
+          </div>
+        </div>
+      </li>
+      <li class="download-item">
+        <div class="download-header">
+          <h4>Linux (arm64)</h4>
+          <div class="button-group">
+            <a class="download-button" href="./downloads/ec2dial.linux-arm64">Download</a>
+            <a class="checksum-button" href="./downloads/ec2dial.linux-arm64.sha256">Checksum</a>
+          </div>
+        </div>
+      </li>
+      <li class="download-item">
+        <div class="download-header">
+          <h4>macOS (amd64)</h4>
+          <div class="button-group">
+            <a class="download-button" href="./downloads/ec2dial.darwin-amd64">Download</a>
+            <a class="checksum-button" href="./downloads/ec2dial.darwin-amd64.sha256">Checksum</a>
+          </div>
+        </div>
+      </li>
+      <li class="download-item">
+        <div class="download-header">
+          <h4>macOS (arm64)</h4>
+          <div class="button-group">
+            <a class="download-button" href="./downloads/ec2dial.darwin-arm64">Download</a>
+            <a class="checksum-button" href="./downloads/ec2dial.darwin-arm64.sha256">Checksum</a>
+          </div>
+        </div>
+      </li>
+      <li class="download-item">
+        <div class="download-header">
+          <h4>Windows (amd64)</h4>
+          <div class="button-group">
+            <a class="download-button" href="./downloads/ec2dial.windows-amd64.exe">Download</a>
+            <a class="checksum-button" href="./downloads/ec2dial.windows-amd64.exe.sha256">Checksum</a>
+          </div>
+        </div>
+      </li>
+      <li class="download-item">
+        <div class="download-header">
+          <h4>Windows (arm64)</h4>
+          <div class="button-group">
+            <a class="download-button" href="./downloads/ec2dial.windows-arm64.exe">Download</a>
+            <a class="checksum-button" href="./downloads/ec2dial.windows-arm64.exe.sha256">Checksum</a>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+  
+  <h2>Manual Installation Instructions</h2>
+  
+  <div class="tabs">
+    <div class="tab active" onclick="showTab('linux-tab')">Linux</div>
+    <div class="tab" onclick="showTab('macos-tab')">macOS</div>
+    <div class="tab" onclick="showTab('windows-tab')">Windows</div>
+  </div>
+  
+  <div class="tab-content">
+    <div id="linux-tab" class="tab-pane active">
+      <ol>
+        <li>Download the appropriate binary for your architecture</li>
+        <li>Verify the checksum:
+          <div class="command">
+            <pre><code>sha256sum -c ec2dial.linux-amd64.sha256</code></pre>
+            <button class="copy-button" onclick="copyCommand(this, 'sha256sum -c ec2dial.linux-amd64.sha256')">Copy</button>
+            <span class="tooltip">Copied!</span>
+          </div>
+        </li>
+        <li>Make the binary executable:
+          <div class="command">
+            <pre><code>chmod +x ec2dial.linux-amd64</code></pre>
+            <button class="copy-button" onclick="copyCommand(this, 'chmod +x ec2dial.linux-amd64')">Copy</button>
+            <span class="tooltip">Copied!</span>
+          </div>
+        </li>
+        <li>Move to a location in your PATH:
+          <div class="command">
+            <pre><code>sudo mv ec2dial.linux-amd64 /usr/local/bin/ec2dial</code></pre>
+            <button class="copy-button" onclick="copyCommand(this, 'sudo mv ec2dial.linux-amd64 /usr/local/bin/ec2dial')">Copy</button>
+            <span class="tooltip">Copied!</span>
+          </div>
+        </li>
+      </ol>
+    </div>
+    
+    <div id="macos-tab" class="tab-pane">
+      <ol>
+        <li>Download the appropriate binary for your Mac (arm64 for Apple Silicon, amd64 for Intel)</li>
+        <li>Verify the checksum:
+          <div class="command">
+            <pre><code>shasum -a 256 -c ec2dial.darwin-arm64.sha256</code></pre>
+            <button class="copy-button" onclick="copyCommand(this, 'shasum -a 256 -c ec2dial.darwin-arm64.sha256')">Copy</button>
+            <span class="tooltip">Copied!</span>
+          </div>
+        </li>
+        <li>Make the binary executable:
+          <div class="command">
+            <pre><code>chmod +x ec2dial.darwin-arm64</code></pre>
+            <button class="copy-button" onclick="copyCommand(this, 'chmod +x ec2dial.darwin-arm64')">Copy</button>
+            <span class="tooltip">Copied!</span>
+          </div>
+        </li>
+        <li>Move to a location in your PATH:
+          <div class="command">
+            <pre><code>sudo mv ec2dial.darwin-arm64 /usr/local/bin/ec2dial</code></pre>
+            <button class="copy-button" onclick="copyCommand(this, 'sudo mv ec2dial.darwin-arm64 /usr/local/bin/ec2dial')">Copy</button>
+            <span class="tooltip">Copied!</span>
+          </div>
+        </li>
+      </ol>
+    </div>
+    
+    <div id="windows-tab" class="tab-pane">
+      <ol>
+        <li>Download the Windows binary</li>
+        <li>Verify the checksum (using PowerShell):
+          <div class="command">
+            <pre><code>Get-FileHash ec2dial.windows-amd64.exe -Algorithm SHA256 | Format-List</code></pre>
+            <button class="copy-button" onclick="copyCommand(this, 'Get-FileHash ec2dial.windows-amd64.exe -Algorithm SHA256 | Format-List')">Copy</button>
+            <span class="tooltip">Copied!</span>
+          </div>
+          Compare the hash with the content of the .sha256 file
+        </li>
+        <li>Rename and move the executable to a location in your PATH:
+          <div class="command">
+            <pre><code>rename ec2dial.windows-amd64.exe ec2dial.exe
+move ec2dial.exe C:\Windows\System32\</code></pre>
+            <button class="copy-button" onclick="copyCommand(this, 'rename ec2dial.windows-amd64.exe ec2dial.exe\r\nmove ec2dial.exe C:\\Windows\\System32\\')">Copy</button>
+            <span class="tooltip">Copied!</span>
+          </div>
+          Or add the directory containing ec2dial.exe to your PATH
+        </li>
+      </ol>
+    </div>
+  </div>
+  
+  <h2>Usage</h2>
+  <pre><code>ec2dial [options] &lt;hostname|instance-id&gt;
+
+Options:
+  -r, --region      AWS region (default: us-east-2)
+  -l, --list        List available instances and exit
+  -h, --help        This help
+  -v, --version     Show version information</code></pre>
+  
+  <h3>Examples</h3>
+  <pre><code># Connect to an instance by partial name
+ec2dial webserver
+
+# Connect to a specific instance ID
+ec2dial i-0123456789abcdef0
+
+# List all available instances
+ec2dial --list
+
+# Use a different AWS region
+ec2dial --region us-west-2 api-server</code></pre>
+  
+  <h2>Prerequisites</h2>
+  <ul>
+    <li>AWS CLI configured with appropriate credentials</li>
+    <li>AWS Session Manager Plugin installed</li>
+    <li>Instances configured with SSM Agent</li>
+    <li>IAM permissions to use SSM</li>
+  </ul>
+  
+  <footer style="margin-top: 50px; color: #586069; font-size: 14px; border-top: 1px solid #eaecef; padding-top: 20px;">
+    &copy; 2025 TycoonLabs | Internal use only
+  </footer>
+
+  <script>
+    function copyCommand(button, text) {
+      navigator.clipboard.writeText(text)
+        .then(() => {
+          const tooltip = button.nextElementSibling;
+          tooltip.style.display = "block";
+          setTimeout(() => {
+            tooltip.style.display = "none";
+          }, 2000);
+        })
+        .catch((err) => {
+          console.error('Could not copy text: ', err);
+          // Fallback for older browsers
+          const textArea = document.createElement('textarea');
+          textArea.value = text;
+          document.body.appendChild(textArea);
+          textArea.select();
+          document.execCommand('copy');
+          document.body.removeChild(textArea);
+          
+          const tooltip = button.nextElementSibling;
+          tooltip.style.display = "block";
+          setTimeout(() => {
+            tooltip.style.display = "none";
+          }, 2000);
+        });
+    }
+    
+    function showTab(tabId) {
+      // Hide all tab panes
+      const tabPanes = document.querySelectorAll('.tab-pane');
+      tabPanes.forEach(pane => {
+        pane.classList.remove('active');
+      });
+      
+      // Deactivate all tabs
+      const tabs = document.querySelectorAll('.tab');
+      tabs.forEach(tab => {
+        tab.classList.remove('active');
+      });
+      
+      // Show the selected tab pane
+      document.getElementById(tabId).classList.add('active');
+      
+      // Activate the clicked tab
+      event.currentTarget.classList.add('active');
+    }
+  </script>
+</body>
+</html>
