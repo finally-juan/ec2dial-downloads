@@ -43,7 +43,6 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      cursor: pointer;
     }
     .download-header h4 {
       margin: 0;
@@ -56,23 +55,23 @@
       border-radius: 6px;
       display: inline-block;
       font-weight: 600;
+      margin-right: 8px;
+    }
+    .checksum-button {
+      background: #0366d6;
+      color: white;
+      padding: 8px 16px;
+      text-decoration: none;
+      border-radius: 6px;
+      display: inline-block;
+      font-weight: 600;
+      font-size: 0.9em;
     }
     .download-button:hover {
       background: #22863a;
     }
-    .checksum {
-      display: none;
-      margin-top: 12px;
-      padding: 10px;
-      background: #f6f8fa;
-      border-radius: 6px;
-      font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
-      font-size: 12px;
-      overflow-x: auto;
-    }
-    .checksum-title {
-      font-weight: bold;
-      margin-bottom: 6px;
+    .checksum-button:hover {
+      background: #0250a2;
     }
     pre {
       background: #f6f8fa;
@@ -92,16 +91,9 @@
       background-color: transparent;
       padding: 0;
     }
-    .arrow {
-      border: solid #586069;
-      border-width: 0 2px 2px 0;
-      display: inline-block;
-      padding: 3px;
-      transform: rotate(45deg);
-      transition: transform 0.2s;
-    }
-    .arrow.up {
-      transform: rotate(-135deg);
+    .button-group {
+      display: flex;
+      gap: 8px;
     }
   </style>
 </head>
@@ -115,68 +107,48 @@
     <h3>Downloads:</h3>
     <ul class="download-list">
       <li class="download-item">
-        <div class="download-header" onclick="toggleChecksum('linux-amd64')">
+        <div class="download-header">
           <h4>Linux (amd64)</h4>
-          <div>
+          <div class="button-group">
             <a class="download-button" href="./downloads/ec2dial.linux-amd64">Download</a>
-            <span class="arrow" id="arrow-linux-amd64"></span>
+            <a class="checksum-button" href="./downloads/ec2dial.linux-amd64.sha256">Checksum</a>
           </div>
-        </div>
-        <div class="checksum" id="checksum-linux-amd64">
-          <div class="checksum-title">SHA256 Checksum:</div>
-          <code>e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</code>
         </div>
       </li>
       <li class="download-item">
-        <div class="download-header" onclick="toggleChecksum('linux-arm64')">
+        <div class="download-header">
           <h4>Linux (arm64)</h4>
-          <div>
+          <div class="button-group">
             <a class="download-button" href="./downloads/ec2dial.linux-arm64">Download</a>
-            <span class="arrow" id="arrow-linux-arm64"></span>
+            <a class="checksum-button" href="./downloads/ec2dial.linux-arm64.sha256">Checksum</a>
           </div>
-        </div>
-        <div class="checksum" id="checksum-linux-arm64">
-          <div class="checksum-title">SHA256 Checksum:</div>
-          <code>a7ffc6f8bf1ed76651c14756a061d662f580ff4de43b49fa82d80a4b80f8434a</code>
         </div>
       </li>
       <li class="download-item">
-        <div class="download-header" onclick="toggleChecksum('darwin-amd64')">
+        <div class="download-header">
           <h4>macOS (amd64)</h4>
-          <div>
+          <div class="button-group">
             <a class="download-button" href="./downloads/ec2dial.darwin-amd64">Download</a>
-            <span class="arrow" id="arrow-darwin-amd64"></span>
+            <a class="checksum-button" href="./downloads/ec2dial.darwin-amd64.sha256">Checksum</a>
           </div>
-        </div>
-        <div class="checksum" id="checksum-darwin-amd64">
-          <div class="checksum-title">SHA256 Checksum:</div>
-          <code>4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865</code>
         </div>
       </li>
       <li class="download-item">
-        <div class="download-header" onclick="toggleChecksum('darwin-arm64')">
+        <div class="download-header">
           <h4>macOS (arm64)</h4>
-          <div>
+          <div class="button-group">
             <a class="download-button" href="./downloads/ec2dial.darwin-arm64">Download</a>
-            <span class="arrow" id="arrow-darwin-arm64"></span>
+            <a class="checksum-button" href="./downloads/ec2dial.darwin-arm64.sha256">Checksum</a>
           </div>
-        </div>
-        <div class="checksum" id="checksum-darwin-arm64">
-          <div class="checksum-title">SHA256 Checksum:</div>
-          <code>1b16a1c4835d38b8b4cd3a9d0ddf8e9db73ddd1e81958f9a388ccd9819624a69</code>
         </div>
       </li>
       <li class="download-item">
-        <div class="download-header" onclick="toggleChecksum('windows-amd64')">
+        <div class="download-header">
           <h4>Windows (amd64)</h4>
-          <div>
+          <div class="button-group">
             <a class="download-button" href="./downloads/ec2dial.windows-amd64.exe">Download</a>
-            <span class="arrow" id="arrow-windows-amd64"></span>
+            <a class="checksum-button" href="./downloads/ec2dial.windows-amd64.exe.sha256">Checksum</a>
           </div>
-        </div>
-        <div class="checksum" id="checksum-windows-amd64">
-          <div class="checksum-title">SHA256 Checksum:</div>
-          <code>53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3</code>
         </div>
       </li>
     </ul>
@@ -185,16 +157,16 @@
   <h2>Installation</h2>
   <h3>Linux/macOS</h3>
   <ol>
-    <li>Download the appropriate binary for your system</li>
-    <li>Verify the checksum: <code>sha256sum -c &lt;&lt;&lt; "CHECKSUM_VALUE ec2dial.FILE_NAME"</code></li>
+    <li>Download the appropriate binary for your system and its checksum file</li>
+    <li>Verify the checksum: <code>sha256sum -c ec2dial.PLATFORM-ARCH.sha256</code></li>
     <li>Make executable: <code>chmod +x ec2dial.PLATFORM-ARCH</code></li>
     <li>Move to a location in your PATH: <code>sudo mv ec2dial.PLATFORM-ARCH /usr/local/bin/ec2dial</code></li>
   </ol>
 
   <h3>Windows</h3>
   <ol>
-    <li>Download the Windows binary</li>
-    <li>Verify the checksum: <code>certutil -hashfile ec2dial.windows-amd64.exe SHA256</code></li>
+    <li>Download the Windows binary and its checksum file</li>
+    <li>Verify with PowerShell: <code>Get-FileHash ec2dial.windows-amd64.exe -Algorithm SHA256 | Format-List</code></li>
     <li>Place the executable in a location that's in your PATH</li>
   </ol>
   
@@ -231,20 +203,5 @@ ec2dial --region us-west-2 api-server</code></pre>
   <footer style="margin-top: 50px; color: #586069; font-size: 14px; border-top: 1px solid #eaecef; padding-top: 20px;">
     &copy; 2025 TycoonLabs | Internal use only
   </footer>
-
-  <script>
-    function toggleChecksum(id) {
-      const checksumDiv = document.getElementById(`checksum-${id}`);
-      const arrow = document.getElementById(`arrow-${id}`);
-      
-      if (checksumDiv.style.display === "block") {
-        checksumDiv.style.display = "none";
-        arrow.classList.remove("up");
-      } else {
-        checksumDiv.style.display = "block";
-        arrow.classList.add("up");
-      }
-    }
-  </script>
 </body>
 </html>
