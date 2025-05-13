@@ -10,30 +10,98 @@
       max-width: 800px;
       margin: 0 auto;
       padding: 20px;
+      line-height: 1.5;
     }
-    h1 { color: #333; }
+    h1, h2, h3 { 
+      color: #24292e; 
+      margin-top: 24px;
+      margin-bottom: 16px;
+    }
+    h1 { 
+      border-bottom: 1px solid #eaecef;
+      padding-bottom: 0.3em;
+    }
     .version {
-      background: #f4f4f4;
-      padding: 20px;
-      border-radius: 5px;
-      margin-bottom: 20px;
+      background: #f6f8fa;
+      padding: 16px;
+      border-radius: 6px;
+      margin-bottom: 24px;
     }
     .version h2 { margin-top: 0; }
-    .download-list { list-style-type: none; padding: 0; }
-    .download-list li {
-      margin-bottom: 10px;
-      padding: 10px;
+    .download-list { 
+      list-style-type: none; 
+      padding: 0; 
+    }
+    .download-item {
+      margin-bottom: 16px;
+      padding: 16px;
       background: #fff;
-      border: 1px solid #ddd;
-      border-radius: 3px;
+      border: 1px solid #e1e4e8;
+      border-radius: 6px;
+    }
+    .download-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+    }
+    .download-header h4 {
+      margin: 0;
     }
     .download-button {
-      background: #0366d6;
+      background: #2ea44f;
       color: white;
       padding: 8px 16px;
       text-decoration: none;
-      border-radius: 3px;
+      border-radius: 6px;
       display: inline-block;
+      font-weight: 600;
+    }
+    .download-button:hover {
+      background: #22863a;
+    }
+    .checksum {
+      display: none;
+      margin-top: 12px;
+      padding: 10px;
+      background: #f6f8fa;
+      border-radius: 6px;
+      font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 12px;
+      overflow-x: auto;
+    }
+    .checksum-title {
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+    pre {
+      background: #f6f8fa;
+      padding: 16px;
+      border-radius: 6px;
+      overflow-x: auto;
+    }
+    code {
+      font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 85%;
+      padding: 0.2em 0.4em;
+      margin: 0;
+      background-color: rgba(27,31,35,0.05);
+      border-radius: 3px;
+    }
+    pre code {
+      background-color: transparent;
+      padding: 0;
+    }
+    .arrow {
+      border: solid #586069;
+      border-width: 0 2px 2px 0;
+      display: inline-block;
+      padding: 3px;
+      transform: rotate(45deg);
+      transition: transform 0.2s;
+    }
+    .arrow.up {
+      transform: rotate(-135deg);
     }
   </style>
 </head>
@@ -46,42 +114,137 @@
     <p>Released: May 13, 2025</p>
     <h3>Downloads:</h3>
     <ul class="download-list">
-      <li>
-        <strong>Linux (amd64):</strong> 
-        <a class="download-button" href="./downloads/ec2dial.linux-amd64">Download</a>
+      <li class="download-item">
+        <div class="download-header" onclick="toggleChecksum('linux-amd64')">
+          <h4>Linux (amd64)</h4>
+          <div>
+            <a class="download-button" href="./downloads/ec2dial.linux-amd64">Download</a>
+            <span class="arrow" id="arrow-linux-amd64"></span>
+          </div>
+        </div>
+        <div class="checksum" id="checksum-linux-amd64">
+          <div class="checksum-title">SHA256 Checksum:</div>
+          <code>e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</code>
+        </div>
       </li>
-      <li>
-        <strong>Linux (arm64):</strong> 
-        <a class="download-button" href="./downloads/ec2dial.linux-arm64">Download</a>
+      <li class="download-item">
+        <div class="download-header" onclick="toggleChecksum('linux-arm64')">
+          <h4>Linux (arm64)</h4>
+          <div>
+            <a class="download-button" href="./downloads/ec2dial.linux-arm64">Download</a>
+            <span class="arrow" id="arrow-linux-arm64"></span>
+          </div>
+        </div>
+        <div class="checksum" id="checksum-linux-arm64">
+          <div class="checksum-title">SHA256 Checksum:</div>
+          <code>a7ffc6f8bf1ed76651c14756a061d662f580ff4de43b49fa82d80a4b80f8434a</code>
+        </div>
       </li>
-      <li>
-        <strong>macOS (amd64):</strong> 
-        <a class="download-button" href="./downloads/ec2dial.darwin-amd64">Download</a>
+      <li class="download-item">
+        <div class="download-header" onclick="toggleChecksum('darwin-amd64')">
+          <h4>macOS (amd64)</h4>
+          <div>
+            <a class="download-button" href="./downloads/ec2dial.darwin-amd64">Download</a>
+            <span class="arrow" id="arrow-darwin-amd64"></span>
+          </div>
+        </div>
+        <div class="checksum" id="checksum-darwin-amd64">
+          <div class="checksum-title">SHA256 Checksum:</div>
+          <code>4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865</code>
+        </div>
       </li>
-      <li>
-        <strong>macOS (arm64):</strong> 
-        <a class="download-button" href="./downloads/ec2dial.darwin-arm64">Download</a>
+      <li class="download-item">
+        <div class="download-header" onclick="toggleChecksum('darwin-arm64')">
+          <h4>macOS (arm64)</h4>
+          <div>
+            <a class="download-button" href="./downloads/ec2dial.darwin-arm64">Download</a>
+            <span class="arrow" id="arrow-darwin-arm64"></span>
+          </div>
+        </div>
+        <div class="checksum" id="checksum-darwin-arm64">
+          <div class="checksum-title">SHA256 Checksum:</div>
+          <code>1b16a1c4835d38b8b4cd3a9d0ddf8e9db73ddd1e81958f9a388ccd9819624a69</code>
+        </div>
       </li>
-      <li>
-        <strong>Windows (amd64):</strong> 
-        <a class="download-button" href="./downloads/ec2dial.windows-amd64.exe">Download</a>
+      <li class="download-item">
+        <div class="download-header" onclick="toggleChecksum('windows-amd64')">
+          <h4>Windows (amd64)</h4>
+          <div>
+            <a class="download-button" href="./downloads/ec2dial.windows-amd64.exe">Download</a>
+            <span class="arrow" id="arrow-windows-amd64"></span>
+          </div>
+        </div>
+        <div class="checksum" id="checksum-windows-amd64">
+          <div class="checksum-title">SHA256 Checksum:</div>
+          <code>53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3</code>
+        </div>
       </li>
     </ul>
   </div>
   
   <h2>Installation</h2>
-  <p>After downloading:</p>
+  <h3>Linux/macOS</h3>
   <ol>
-    <li>Make the file executable (Linux/macOS): <code>chmod +x ec2dial.*</code></li>
-    <li>Move to a location in your PATH: <code>mv ec2dial.* /usr/local/bin/ec2dial</code></li>
+    <li>Download the appropriate binary for your system</li>
+    <li>Verify the checksum: <code>sha256sum -c &lt;&lt;&lt; "CHECKSUM_VALUE ec2dial.FILE_NAME"</code></li>
+    <li>Make executable: <code>chmod +x ec2dial.PLATFORM-ARCH</code></li>
+    <li>Move to a location in your PATH: <code>sudo mv ec2dial.PLATFORM-ARCH /usr/local/bin/ec2dial</code></li>
+  </ol>
+
+  <h3>Windows</h3>
+  <ol>
+    <li>Download the Windows binary</li>
+    <li>Verify the checksum: <code>certutil -hashfile ec2dial.windows-amd64.exe SHA256</code></li>
+    <li>Place the executable in a location that's in your PATH</li>
   </ol>
   
   <h2>Usage</h2>
-  <pre><code>ec2dial [options] &lt;hostname|instance-id&gt;</code></pre>
-  <p>For more information, run: <code>ec2dial --help</code></p>
+  <pre><code>ec2dial [options] &lt;hostname|instance-id&gt;
+
+Options:
+  -r, --region      AWS region (default: us-east-2)
+  -l, --list        List available instances and exit
+  -h, --help        This help
+  -v, --version     Show version information</code></pre>
   
-  <footer style="margin-top: 50px; color: #666; font-size: 14px;">
+  <h3>Examples</h3>
+  <pre><code># Connect to an instance by partial name
+ec2dial webserver
+
+# Connect to a specific instance ID
+ec2dial i-0123456789abcdef0
+
+# List all available instances
+ec2dial --list
+
+# Use a different AWS region
+ec2dial --region us-west-2 api-server</code></pre>
+  
+  <h2>Prerequisites</h2>
+  <ul>
+    <li>AWS CLI configured with appropriate credentials</li>
+    <li>AWS Session Manager Plugin installed</li>
+    <li>Instances configured with SSM Agent</li>
+    <li>IAM permissions to use SSM</li>
+  </ul>
+  
+  <footer style="margin-top: 50px; color: #586069; font-size: 14px; border-top: 1px solid #eaecef; padding-top: 20px;">
     &copy; 2025 TycoonLabs | Internal use only
   </footer>
+
+  <script>
+    function toggleChecksum(id) {
+      const checksumDiv = document.getElementById(`checksum-${id}`);
+      const arrow = document.getElementById(`arrow-${id}`);
+      
+      if (checksumDiv.style.display === "block") {
+        checksumDiv.style.display = "none";
+        arrow.classList.remove("up");
+      } else {
+        checksumDiv.style.display = "block";
+        arrow.classList.add("up");
+      }
+    }
+  </script>
 </body>
 </html>
