@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ec2dial Download</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1 { color: #333; }
+    .version {
+      background: #f4f4f4;
+      padding: 20px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+    .version h2 { margin-top: 0; }
+    .download-list { list-style-type: none; padding: 0; }
+    .download-list li {
+      margin-bottom: 10px;
+      padding: 10px;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+    }
+    .download-button {
+      background: #0366d6;
+      color: white;
+      padding: 8px 16px;
+      text-decoration: none;
+      border-radius: 3px;
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+  <h1>ec2dial Download</h1>
+  <p>A command-line utility to connect to AWS EC2 instances via SSM.</p>
+  
+  <div class="version">
+    <h2>Version 1.0.0</h2>
+    <p>Released: May 13, 2025</p>
+    <h3>Downloads:</h3>
+    <ul class="download-list">
+      <li>
+        <strong>Linux (amd64):</strong> 
+        <a class="download-button" href="./downloads/ec2dial.linux-amd64">Download</a>
+      </li>
+      <li>
+        <strong>Linux (arm64):</strong> 
+        <a class="download-button" href="./downloads/ec2dial.linux-arm64">Download</a>
+      </li>
+      <li>
+        <strong>macOS (amd64):</strong> 
+        <a class="download-button" href="./downloads/ec2dial.darwin-amd64">Download</a>
+      </li>
+      <li>
+        <strong>macOS (arm64):</strong> 
+        <a class="download-button" href="./downloads/ec2dial.darwin-arm64">Download</a>
+      </li>
+      <li>
+        <strong>Windows (amd64):</strong> 
+        <a class="download-button" href="./downloads/ec2dial.windows-amd64.exe">Download</a>
+      </li>
+    </ul>
+  </div>
+  
+  <h2>Installation</h2>
+  <p>After downloading:</p>
+  <ol>
+    <li>Make the file executable (Linux/macOS): <code>chmod +x ec2dial.*</code></li>
+    <li>Move to a location in your PATH: <code>mv ec2dial.* /usr/local/bin/ec2dial</code></li>
+  </ol>
+  
+  <h2>Usage</h2>
+  <pre><code>ec2dial [options] &lt;hostname|instance-id&gt;</code></pre>
+  <p>For more information, run: <code>ec2dial --help</code></p>
+  
+  <footer style="margin-top: 50px; color: #666; font-size: 14px;">
+    &copy; 2025 TycoonLabs | Internal use only
+  </footer>
+</body>
+</html>
