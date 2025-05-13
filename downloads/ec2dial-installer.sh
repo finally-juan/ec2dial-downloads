@@ -3,11 +3,11 @@
 set -e
 
 # Configuration
-GITHUB_REPO="finally-juan/ec2dial-downloads"
+GITHUB_REPO="tycoonlabs/ec2dial-downloads"
 LATEST_VERSION="d4915f2-dirty"  # This could be dynamically determined in the future
 INSTALL_DIR="/usr/local/bin"
 TEMP_DIR=$(mktemp -d)
-GITHUB_URL="https://finally-juan.github.io/ec2dial-downloads"
+GITHUB_URL="https://tycoonlabs.github.io/ec2dial-downloads"
 
 # Colors for output
 RED='\033[0;31m'

@@ -7,14 +7,14 @@ A command-line utility to connect to AWS EC2 instances via SSM using hostname or
 Install ec2dial with a single command:
 
 ```bash
-curl --proto '=https' --tlsv1.2 -LsSf https://raw.githubusercontent.com/finally-juan/ec2dial/main/install.sh | sh
+curl --proto '=https' --tlsv1.2 -LsSf https://raw.githubusercontent.com/tycoonlabs/ec2dial/main/install.sh | sh
 ```
 
 The installer will automatically detect your system, download the appropriate binary, verify the checksum, and install it to `/usr/local/bin`.
 
 ## Manual Installation
 
-1. Download the appropriate binary for your system from the [releases page](https://github.com/finally-juan/ec2dial/releases/latest)
+1. Download the appropriate binary for your system from the [releases page](https://github.com/tycoonlabs/ec2dial/releases/latest)
 2. Verify the checksum (SHA256 files are included with each release)
 3. Make the binary executable: `chmod +x ec2dial.*`
 4. Move to a location in your PATH: `sudo mv ec2dial.* /usr/local/bin/ec2dial`
